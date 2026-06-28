@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const nodeID3 = require('node-id3');
@@ -36,7 +36,8 @@ function createWindow() {
 app.whenReady().then(() => {
   if (process.platform === 'darwin') {
     try {
-      app.dock.setIcon(path.join(__dirname, 'icon.png')); // Set macOS Dock icon dynamically
+      const image = nativeImage.createFromPath(path.join(__dirname, 'icon.png'));
+      app.dock.setIcon(image); // Set macOS Dock icon dynamically using NativeImage
     } catch (e) {
       console.error('Error setting dock icon:', e);
     }

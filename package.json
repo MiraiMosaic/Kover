@@ -1,5 +1,5 @@
 {
-  "name": "kover-art",
+  "name": "kover",
   "version": "1.0.0",
   "description": "Dead simple drag-and-drop cover art tagger for macOS",
   "main": "main.js",
@@ -15,8 +15,8 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.teekatas.koverart",
-    "productName": "KoverArt",
+    "appId": "com.teekatas.kover",
+    "productName": "Kover",
     "mac": {
       "category": "public.app-category.music",
       "target": [
