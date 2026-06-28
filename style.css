@@ -120,19 +120,16 @@ body {
 
 .drop-zone.drag-over {
   background: #1c1c1c;
-  box-shadow: 0 0 10px rgba(255, 54, 0, 0.15);
 }
 
 /* Active State for Music (Dashed Orange Border) */
 .drop-zone.loaded {
   border: 1.5px dashed var(--accent-color); /* Dashed accent color border */
-  box-shadow: 0 0 12px var(--accent-glow);
 }
 
 /* Active State for Image (No border, image covers fully) */
 .drop-zone#image-drop-zone.loaded {
   border: none;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
 }
 
 /* Content inside Drop Zones (Prompt State) */
@@ -301,6 +298,8 @@ body {
   align-items: center;
   height: 48px; /* Very close spacing */
   margin-top: 8px;
+  z-index: 10;
+  position: relative;
 }
 
 .kover-btn {
@@ -327,32 +326,16 @@ body {
   z-index: 2;
 }
 
-/* Active Enabled Button State */
+/* Active Enabled Button State (Flat, no glow) */
 .kover-btn:not(:disabled) {
   background: var(--accent-color); /* Orange-red background */
   color: #000000; /* Black text */
   cursor: pointer;
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-
-.btn-glow {
-  position: absolute;
-  inset: -2px;
-  border-radius: 16px;
-  background: var(--accent-color);
-  filter: blur(6px);
-  opacity: 0;
-  z-index: 1;
-  transition: opacity 0.3s ease;
 }
 
 .kover-btn:not(:disabled):hover {
+  background: #ff5c33; /* Slightly brighter accent color, no glow hover */
   transform: translateY(-1px);
-  box-shadow: 0 0 15px var(--accent-glow);
-}
-
-.kover-btn:not(:disabled):hover .btn-glow {
-  opacity: 0.4;
 }
 
 .kover-btn:not(:disabled):active {
@@ -394,7 +377,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 0 20px var(--accent-glow);
   transform: scale(0.95);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -417,10 +399,6 @@ body {
   border-top-color: var(--accent-color);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-}
-
-.spinner-ring {
-  display: none;
 }
 
 @keyframes spin {
@@ -449,7 +427,6 @@ body {
   width: 0%;
   height: 100%;
   background: var(--accent-color);
-  box-shadow: 0 0 6px var(--accent-glow);
   border-radius: 10px;
   transition: width 0.15s ease;
 }
@@ -469,3 +446,49 @@ body {
 .hidden {
   display: none !important;
 }
+
+/* -------------------------------------------------------------
+   TUNNEL ROUND WIPE ANIMATION STYLES
+   ------------------------------------------------------------- */
+
+/* Transition fades for content during wipe */
+.logo-header,
+.drop-zones-row {
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 5; /* Sit on top of wipe overlay */
+}
+
+/* Solid background round wipe stems from button center (x: 50%, y: 84%) */
+.wipe-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent-color);
+  z-index: 2; /* Sits behind dropzones/header, but covers the black window background */
+  pointer-events: none;
+  border-radius: 20px;
+  overflow: hidden;
+  clip-path: circle(0px at 50% 84%);
+  transition: clip-path 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* Grows smoothly but fast */
+}
+
+/* Active Wiped State Class toggled on app-container */
+.app-container.wiped .wipe-overlay {
+  clip-path: circle(150% at 50% 84%); /* Wipes the whole window */
+}
+
+/* Hide other content elements during wipe */
+.app-container.wiped .logo-header,
+.app-container.wiped .drop-zones-row {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Transition button visual color state on wipe (black base on orange backdrop) */
+.app-container.wiped .kover-btn {
+  background: #000000 !important;
+  color: var(--text-primary) !important;
+  cursor: default;
+  transform: none !important;
+}
+

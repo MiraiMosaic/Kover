@@ -11,6 +11,9 @@
   <div class="window-drag-bar"></div>
 
   <div class="app-container">
+    <!-- Tunnel round wipe overlay -->
+    <div class="wipe-overlay" id="wipe-overlay"></div>
+
     <!-- Clipped neon logo -->
     <header class="logo-header">
       <h1 class="logo-text">kover</h1>
@@ -81,7 +84,6 @@
       <div class="action-row">
         <button id="kover-btn" class="kover-btn" disabled>
           <span>kover!</span>
-          <div class="btn-glow"></div>
         </button>
       </div>
     </main>
@@ -89,12 +91,11 @@
     <!-- HIDDEN CANVAS FOR IMAGE CROPPING -->
     <canvas id="crop-canvas" class="hidden-canvas"></canvas>
 
-    <!-- PROCESSING OVERLAY -->
+    <!-- PROCESSING OVERLAY (HIDDEN BY DEFAULT, OPERATES IN BACKGROUND NOW) -->
     <div class="status-overlay hidden" id="status-overlay">
       <div class="status-modal">
         <div class="spinner-container">
           <div class="spinner"></div>
-          <div class="spinner-ring"></div>
         </div>
         <h2 id="status-title">Kovering...</h2>
         <div class="progress-bar-container">

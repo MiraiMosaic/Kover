@@ -360,17 +360,18 @@ function generateCroppedBase64() {
 async function processTagging() {
   if (musicFiles.length === 0 || !coverImage || !imgElement) return;
 
-  // Show status modal
-  statusTitle.textContent = "Kovering...";
-  statusDetail.textContent = "Processing image...";
-  progressBarFill.style.width = "0%";
-  statusOverlay.classList.add('active');
+  // Set button to loading text
+  koverBtn.disabled = true;
+  koverBtn.querySelector('span').textContent = 'kovering...';
 
   // Generate the cropped image based on exact user zoom & dragging offsets
   const base64Data = generateCroppedBase64();
   if (!base64Data) {
-    statusOverlay.classList.remove('active');
-    alert('Error cropping image. Please try again.');
+    koverBtn.querySelector('span').textContent = 'error!';
+    setTimeout(() => {
+      koverBtn.querySelector('span').textContent = 'kover!';
+      updateKoverButtonState();
+    }, 2000);
     return;
   }
 
@@ -379,48 +380,37 @@ async function processTagging() {
 
   for (let i = 0; i < musicFiles.length; i++) {
     const file = musicFiles[i];
-    file.status = 'processing';
-
-    const percent = Math.round((i / musicFiles.length) * 100);
-    progressBarFill.style.width = `${percent}%`;
-    statusDetail.textContent = `Writing: ${file.name}`;
-
     const validation = await window.api.validateFile(file.path);
     if (!validation.valid) {
-      file.status = 'error';
       failCount++;
     } else {
       const response = await window.api.writeCoverArt(file.path, base64Data);
       if (response.success) {
-        file.status = 'success';
         successCount++;
       } else {
-        file.status = 'error';
         console.error(`Error tagging ${file.name}:`, response.error);
         failCount++;
       }
     }
   }
 
-  progressBarFill.style.width = "100%";
-  statusTitle.textContent = "Kover Completed!";
-  statusDetail.textContent = `Updated ${successCount} file(s). ${failCount > 0 ? `Failed ${failCount}.` : ''}`;
+  // Trigger the wipe animation and Success! text
+  const appContainer = document.querySelector('.app-container');
+  appContainer.classList.add('wiped');
+  koverBtn.querySelector('span').textContent = 'success!';
 
-  const dismissBtn = document.createElement('button');
-  dismissBtn.className = 'kover-btn';
-  dismissBtn.style.marginTop = '16px';
-  dismissBtn.style.height = '28px';
-  dismissBtn.style.fontSize = '12px';
-  dismissBtn.style.borderRadius = '14px';
-  dismissBtn.innerHTML = '<span>Done</span><div class="btn-glow"></div>';
-  
-  const modal = statusOverlay.querySelector('.status-modal');
-  modal.appendChild(dismissBtn);
-
-  dismissBtn.addEventListener('click', () => {
-    statusOverlay.classList.remove('active');
-    dismissBtn.remove();
-  });
+  // Set 3-second timeout to reverse and reset
+  setTimeout(() => {
+    // Reverse tunnel motion (collapses circle back to button)
+    appContainer.classList.remove('wiped');
+    
+    // Reset button text
+    koverBtn.querySelector('span').textContent = 'kover!';
+    
+    // Clear files to reset the app state
+    clearMusic();
+    clearImage();
+  }, 3000);
 }
 
 koverBtn.addEventListener('click', processTagging);
