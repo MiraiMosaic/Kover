@@ -56,11 +56,11 @@ body {
 
 /* Header: traffic lights left, logo right */
 .logo-header {
-  height: 38px;
+  height: auto;
   display: flex;
   justify-content: flex-end; /* Aligns logo to the right, avoiding traffic lights */
-  align-items: center;
-  padding-top: 6px;
+  align-items: flex-start;
+  padding-top: 12px; /* Logo padding from the top is 12px */
   overflow: hidden;
   user-select: none;
   -webkit-app-region: drag;
@@ -83,7 +83,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  margin-top: 2px;
+  margin-top: 12px; /* Logo padding to drop zone is 12px */
 }
 
 .drop-zones-row {
@@ -296,8 +296,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 48px; /* Very close spacing */
-  margin-top: 8px;
+  height: 28px; /* Matches button height exactly */
+  margin-top: 10px; /* Reduced vertical spacing to exactly 10px */
   z-index: 10;
   position: relative;
 }

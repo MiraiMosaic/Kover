@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer, webUtils } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
   writeCoverArt: (filePath, imageBase64) => ipcRenderer.invoke('write-cover-art', { filePath, imageBase64 }),
@@ -6,5 +6,13 @@ contextBridge.exposeInMainWorld('api', {
   selectMusicFiles: () => ipcRenderer.invoke('select-music-files'),
   selectImageFile: () => ipcRenderer.invoke('select-image-file'),
   getFileInfo: (filePath) => ipcRenderer.invoke('get-file-info', filePath),
-  readFileBase64: (filePath) => ipcRenderer.invoke('read-file-base64', filePath)
+  readFileBase64: (filePath) => ipcRenderer.invoke('read-file-base64', filePath),
+  getPathForFile: (file) => {
+    try {
+      return webUtils.getPathForFile(file);
+    } catch (e) {
+      console.error('Error in getPathForFile:', e);
+      return file.path;
+    }
+  }
 });

@@ -71,7 +71,8 @@ async function addMusicFileByPath(filePath) {
 
 async function handleMusicDrop(files) {
   for (const file of Array.from(files)) {
-    await addMusicFileByPath(file.path);
+    const path = window.api.getPathForFile(file) || file.path;
+    await addMusicFileByPath(path);
   }
 }
 
@@ -300,7 +301,8 @@ imageDropZone.addEventListener('drop', (e) => {
   e.preventDefault();
   imageDropZone.classList.remove('drag-over');
   if (e.dataTransfer.files.length > 0) {
-    handleImageFileByPath(e.dataTransfer.files[0].path);
+    const path = window.api.getPathForFile(e.dataTransfer.files[0]) || e.dataTransfer.files[0].path;
+    handleImageFileByPath(path);
   }
 });
 
