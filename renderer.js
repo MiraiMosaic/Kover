@@ -399,7 +399,7 @@ async function processTagging() {
   appContainer.classList.add('wiped');
   koverBtn.querySelector('span').textContent = 'success!';
 
-  // Set 3-second timeout to reverse and reset
+  // Set 1-second timeout to reverse and reset
   setTimeout(() => {
     // Reverse tunnel motion (collapses circle back to button)
     appContainer.classList.remove('wiped');
@@ -410,7 +410,7 @@ async function processTagging() {
     // Clear files to reset the app state
     clearMusic();
     clearImage();
-  }, 3000);
+  }, 1000);
 }
 
 koverBtn.addEventListener('click', processTagging);
