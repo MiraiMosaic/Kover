@@ -4,12 +4,26 @@
   "description": "Dead simple drag-and-drop cover art tagger for macOS",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
   "dependencies": {
     "node-id3": "^0.2.6"
   },
   "devDependencies": {
-    "electron": "^34.0.0"
+    "electron": "^34.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.teekatas.koverart",
+    "productName": "KoverArt",
+    "mac": {
+      "category": "public.app-category.music",
+      "target": [
+        "dmg"
+      ],
+      "icon": "icon.png",
+      "identity": null
+    }
   }
 }
