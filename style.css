@@ -353,7 +353,7 @@ body {
   font-family: var(--font-pixel);
   font-weight: 500; /* Medium 500 */
   font-size: 17px; /* kover! text bigger */
-  letter-spacing: -0.5px;
+  letter-spacing: 1.5px; /* Increased letter tracking */
   cursor: not-allowed;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: visible;
