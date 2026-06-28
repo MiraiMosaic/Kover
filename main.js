@@ -15,7 +15,8 @@ function createWindow() {
     trafficLightPosition: { x: 12, y: 12 }, // Offset traffic lights in super compact layout
     resizable: false,
     maximizable: false,
-    backgroundColor: '#00000000', // Transparent so CSS handles border radius
+    vibrancy: 'under-window', // Enable native macOS vibrancy frosted blur
+    visualEffectState: 'active', // Maintain blur even when window is in background
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
