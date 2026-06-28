@@ -15,6 +15,7 @@ const musicDropZone = document.getElementById('music-drop-zone');
 const musicPrompt = document.getElementById('music-prompt');
 const musicLoadedContainer = document.getElementById('music-loaded-container');
 const musicFileName = document.getElementById('music-file-name');
+const fileNameContainer = document.getElementById('file-name-container');
 const musicFileMore = document.getElementById('music-file-more');
 const clearMusicBtn = document.getElementById('clear-music-btn');
 
@@ -91,6 +92,7 @@ function renderMusicState() {
     musicLoadedContainer.classList.add('hidden');
     musicDropZone.classList.remove('loaded');
     clearMusicBtn.classList.add('hidden'); // Hide close button
+    if (fileNameContainer) fileNameContainer.classList.remove('marquee');
     return;
   }
 
@@ -100,7 +102,15 @@ function renderMusicState() {
   clearMusicBtn.classList.remove('hidden'); // Show close button
 
   // Display first file name
-  musicFileName.textContent = musicFiles[0].name;
+  const fName = musicFiles[0].name;
+  musicFileName.textContent = fName;
+
+  // Toggle marquee ticker animation if name is too long for the box
+  if (fName.length > 11) {
+    fileNameContainer.classList.add('marquee');
+  } else {
+    fileNameContainer.classList.remove('marquee');
+  }
 
   // Display count of remaining files
   if (musicFiles.length > 1) {
