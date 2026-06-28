@@ -493,7 +493,7 @@ body {
 /* Transition fades for content during wipe */
 .logo-header,
 .drop-zones-row {
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1); /* Content fade set to 900ms */
   position: relative;
   z-index: 5; /* Sit on top of wipe overlay */
 }
@@ -508,7 +508,7 @@ body {
   border-radius: 20px;
   overflow: hidden;
   clip-path: circle(0px at 50% 84%);
-  transition: clip-path 0.5s cubic-bezier(0.16, 1, 0.3, 1); /* Grows smoothly but fast */
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1); /* Background wipe set to 1000ms */
 }
 
 /* Active Wiped State Class toggled on app-container */
