@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KoverArt</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Drag area for frameless window movement -->
+  <div class="window-drag-bar"></div>
+
+  <div class="app-container">
+    <!-- Clipped neon logo -->
+    <header class="logo-header">
+      <h1 class="logo-text">kover</h1>
+    </header>
+
+    <main class="main-content">
+      <div class="drop-zones-row">
+        <!-- MUSIC DROP ZONE -->
+        <div class="drop-zone" id="music-drop-zone">
+          <!-- Close button on top-right -->
+          <button id="clear-music-btn" class="drop-zone-close-btn hidden" title="Clear files">&times;</button>
+
+          <!-- Prompt State -->
+          <div class="drop-zone-content" id="music-prompt">
+            <div class="icon-wrapper music-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="18" cy="16" r="3" />
+              </svg>
+            </div>
+            <h3>MP3</h3>
+          </div>
+          
+          <!-- Loaded State Indicator -->
+          <div class="music-loaded-indicator hidden" id="music-loaded-container">
+            <div class="icon-wrapper music-icon loaded-glow">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="18" cy="16" r="3" />
+              </svg>
+            </div>
+            <div class="music-details">
+              <span id="music-file-name" class="file-name-text">track1.mp3</span>
+              <span id="music-file-more" class="file-more-text">+2 more</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- IMAGE DROP ZONE -->
+        <div class="drop-zone" id="image-drop-zone">
+          <!-- Close button on top-right -->
+          <button id="clear-image-btn" class="drop-zone-close-btn hidden" title="Remove image">&times;</button>
+
+          <!-- Prompt State -->
+          <div class="drop-zone-content" id="image-prompt">
+            <div class="icon-wrapper image-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+            </div>
+            <h3>IMG</h3>
+          </div>
+
+          <!-- Cropped Preview State -->
+          <div class="preview-container hidden" id="preview-container">
+            <div class="preview-viewport">
+              <img id="image-preview" src="" alt="Cropped Preview">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTON -->
+      <div class="action-row">
+        <button id="kover-btn" class="kover-btn" disabled>
+          <span>kover!</span>
+          <div class="btn-glow"></div>
+        </button>
+      </div>
+    </main>
+
+    <!-- HIDDEN CANVAS FOR IMAGE CROPPING -->
+    <canvas id="crop-canvas" class="hidden-canvas"></canvas>
+
+    <!-- PROCESSING OVERLAY -->
+    <div class="status-overlay hidden" id="status-overlay">
+      <div class="status-modal">
+        <div class="spinner-container">
+          <div class="spinner"></div>
+          <div class="spinner-ring"></div>
+        </div>
+        <h2 id="status-title">Kovering...</h2>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progress-bar-fill"></div>
+        </div>
+        <p id="status-detail">Processing...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOAD RENDERER SCRIPT -->
+  <script src="renderer.js"></script>
+</body>
+</html>
