@@ -493,7 +493,7 @@ body {
 /* Transition fades for content during wipe */
 .logo-header,
 .drop-zones-row {
-  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1); /* Content fade set to 900ms */
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1); /* Content fade set to 700ms */
   position: relative;
   z-index: 5; /* Sit on top of wipe overlay */
 }
