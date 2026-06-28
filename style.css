@@ -529,6 +529,6 @@ body {
   color: var(--text-primary) !important;
   cursor: default;
   transform: none !important;
-  letter-spacing: 1px !important; /* Set success! text tracking to 1px */
+  letter-spacing: 0.5px !important; /* Set success! text tracking to 0.5px */
 }
 
