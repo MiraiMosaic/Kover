@@ -409,9 +409,9 @@ async function processTagging() {
   // Trigger the wipe animation and Success! text
   const appContainer = document.querySelector('.app-container');
   appContainer.classList.add('wiped');
-  koverBtn.querySelector('span').textContent = 'success!';
+  koverBtn.querySelector('span').textContent = 'SUCCESS!';
 
-  // Set 1-second timeout to reverse and reset
+  // Set 1.5-second timeout to reverse and reset
   setTimeout(() => {
     // Reverse tunnel motion (collapses circle back to button)
     appContainer.classList.remove('wiped');
@@ -422,7 +422,7 @@ async function processTagging() {
     // Clear files to reset the app state
     clearMusic();
     clearImage();
-  }, 1000);
+  }, 1500);
 }
 
 koverBtn.addEventListener('click', processTagging);
