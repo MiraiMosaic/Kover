@@ -7,6 +7,7 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 275,
     height: 195,
+    icon: path.join(__dirname, 'icon.png'), // Set window icon
     frame: false, // Frameless window
     transparent: true, // Transparent window for custom rounded corners
     hasShadow: true, // Retain OS shadows
@@ -32,6 +33,13 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (process.platform === 'darwin') {
+    try {
+      app.dock.setIcon(path.join(__dirname, 'icon.png')); // Set macOS Dock icon dynamically
+    } catch (e) {
+      console.error('Error setting dock icon:', e);
+    }
+  }
   createWindow();
 
   app.on('activate', () => {
