@@ -106,7 +106,7 @@ function renderMusicState() {
   musicFileName.textContent = fName;
 
   // Toggle marquee ticker animation if name is too long for the box
-  if (fName.length > 11) {
+  if (fName.length > 9) {
     fileNameContainer.classList.add('marquee');
   } else {
     fileNameContainer.classList.remove('marquee');
