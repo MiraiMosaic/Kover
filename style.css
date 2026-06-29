@@ -2,7 +2,7 @@
 
 :root {
   --bg-color: #000000;
-  --panel-bg: #121212;
+  --panel-bg: #1c1c1c;
   --text-primary: #ffffff;
   --text-muted: #4e4e4e;
   --accent-color: #ff3600;
@@ -115,11 +115,11 @@ body {
 
 /* Hover Drag State */
 .drop-zone:hover {
-  background: #181818;
+  background: #262626; /* Brighter grey on hover */
 }
 
 .drop-zone.drag-over {
-  background: #1c1c1c;
+  background: #2c2c2c; /* Even brighter grey on drag over */
 }
 
 /* Active State for Music (Dashed Orange Border) */
