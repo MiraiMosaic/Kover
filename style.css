@@ -199,7 +199,8 @@ body {
   white-space: nowrap;
   display: flex;
   justify-content: center;
-  height: 14px; /* Increased to prevent clipping of 12px text */
+  align-items: center; /* Center text vertically to prevent descender clipping */
+  height: 17px; /* Increased to fit 12px text descenders perfectly */
 }
 
 .file-name-text {
@@ -530,5 +531,76 @@ body {
   cursor: default;
   transform: none !important;
   letter-spacing: 0.5px !important; /* Set success! text tracking to 0.5px */
+}
+
+/* Dimmed background preview for existing cover art inside music zone */
+.music-bg-preview {
+  position: absolute;
+  inset: 0;
+  opacity: 0.35; /* Dimmed so text and icons on top are highly readable */
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.music-bg-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Make sure the text/icons stay on top of the background image */
+.music-loaded-indicator,
+.drop-zone-content {
+  position: relative;
+  z-index: 5;
+}
+
+/* Small 'Remove Album Art' button displayed on hover */
+.remove-art-btn {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 78px;
+  height: 18px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.85);
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  opacity: 0; /* Hidden by default */
+  transition: all 0.2s ease;
+  -webkit-app-region: no-drag;
+  white-space: nowrap;
+}
+
+/* Reveal button on hover if the zone has art loaded */
+.drop-zone.has-art:hover .remove-art-btn {
+  opacity: 1;
+}
+
+.remove-art-btn:hover {
+  background: var(--accent-color);
+  color: #000000;
+}
+
+/* Done! Success state class */
+.remove-art-btn.success {
+  background: #28a745 !important; /* Green */
+  border-color: #28a745 !important;
+  color: #ffffff !important; /* White text */
+  opacity: 1 !important; /* Force stay visible during success transition */
+  cursor: default;
 }
 

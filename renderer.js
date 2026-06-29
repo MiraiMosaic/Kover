@@ -18,6 +18,9 @@ const musicFileName = document.getElementById('music-file-name');
 const fileNameContainer = document.getElementById('file-name-container');
 const musicFileMore = document.getElementById('music-file-more');
 const clearMusicBtn = document.getElementById('clear-music-btn');
+const musicBgPreview = document.getElementById('music-bg-preview');
+const musicBgImage = document.getElementById('music-bg-image');
+const removeArtBtn = document.getElementById('remove-art-btn');
 
 const imageDropZone = document.getElementById('image-drop-zone');
 const imagePrompt = document.getElementById('image-prompt');
@@ -63,7 +66,8 @@ async function addMusicFileByPath(filePath) {
       path: info.path,
       name: info.name,
       size: info.size,
-      status: 'ready'
+      status: 'ready',
+      existingCoverBase64: info.existingCoverBase64 || null
     });
     renderMusicState();
     updateKoverButtonState();
@@ -93,6 +97,17 @@ function renderMusicState() {
     musicDropZone.classList.remove('loaded');
     clearMusicBtn.classList.add('hidden'); // Hide close button
     if (fileNameContainer) fileNameContainer.classList.remove('marquee');
+    
+    // Hide cover preview state
+    if (musicBgPreview) musicBgPreview.classList.add('hidden');
+    if (musicBgImage) musicBgImage.src = '';
+    if (removeArtBtn) {
+      removeArtBtn.classList.add('hidden');
+      removeArtBtn.classList.remove('success');
+      removeArtBtn.textContent = 'Remove Album Art';
+      removeArtBtn.disabled = false;
+    }
+    musicDropZone.classList.remove('has-art');
     return;
   }
 
@@ -102,7 +117,8 @@ function renderMusicState() {
   clearMusicBtn.classList.remove('hidden'); // Show close button
 
   // Display first file name
-  const fName = musicFiles[0].name;
+  const firstFile = musicFiles[0];
+  const fName = firstFile.name;
   musicFileName.textContent = fName;
 
   // Toggle marquee ticker animation if name is too long for the box
@@ -119,6 +135,19 @@ function renderMusicState() {
   } else {
     musicFileMore.textContent = '';
     musicFileMore.classList.add('hidden');
+  }
+
+  // If there's existing cover art, show it slightly dimmed inside the music drop zone
+  if (firstFile.existingCoverBase64) {
+    musicBgImage.src = firstFile.existingCoverBase64;
+    musicBgPreview.classList.remove('hidden');
+    musicDropZone.classList.add('has-art');
+    removeArtBtn.classList.remove('hidden');
+  } else {
+    musicBgImage.src = '';
+    musicBgPreview.classList.add('hidden');
+    musicDropZone.classList.remove('has-art');
+    removeArtBtn.classList.add('hidden');
   }
 }
 
@@ -426,3 +455,39 @@ async function processTagging() {
 }
 
 koverBtn.addEventListener('click', processTagging);
+
+// Remove Album Art button handler
+if (removeArtBtn) {
+  removeArtBtn.addEventListener('click', async (e) => {
+    e.stopPropagation(); // Avoid triggering drop zone click file dialog
+    if (musicFiles.length === 0) return;
+    
+    removeArtBtn.disabled = true;
+    removeArtBtn.textContent = 'Removing...';
+    
+    let successCount = 0;
+    for (const file of musicFiles) {
+      const response = await window.api.removeCoverArt(file.path);
+      if (response.success) {
+        successCount++;
+        file.existingCoverBase64 = null;
+      }
+    }
+    
+    if (successCount > 0) {
+      removeArtBtn.classList.add('success');
+      removeArtBtn.textContent = 'Done!';
+      
+      // Let success feedback stand for 1.5s, then reset preview & state
+      setTimeout(() => {
+        renderMusicState();
+      }, 1500);
+    } else {
+      removeArtBtn.disabled = false;
+      removeArtBtn.textContent = 'Error!';
+      setTimeout(() => {
+        removeArtBtn.textContent = 'Remove Album Art';
+      }, 2000);
+    }
+  });
+}

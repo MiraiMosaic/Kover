@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('api', {
   selectImageFile: () => ipcRenderer.invoke('select-image-file'),
   getFileInfo: (filePath) => ipcRenderer.invoke('get-file-info', filePath),
   readFileBase64: (filePath) => ipcRenderer.invoke('read-file-base64', filePath),
+  removeCoverArt: (filePath) => ipcRenderer.invoke('remove-cover-art', filePath),
   getPathForFile: (file) => {
     try {
       return webUtils.getPathForFile(file);

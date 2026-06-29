@@ -129,14 +129,45 @@ ipcMain.handle('select-image-file', async () => {
 ipcMain.handle('get-file-info', async (event, filePath) => {
   try {
     const stats = await fs.promises.stat(filePath);
-    return {
+    const info = {
       path: filePath,
       name: path.basename(filePath),
       size: stats.size,
       valid: true
     };
+
+    // Check if it's an MP3 and read cover art
+    if (filePath.toLowerCase().endsWith('.mp3')) {
+      const tags = nodeID3.read(filePath);
+      if (tags && tags.image && tags.image.imageBuffer) {
+        const mime = tags.image.mime || 'image/jpeg';
+        info.existingCoverBase64 = `data:${mime};base64,${tags.image.imageBuffer.toString('base64')}`;
+      }
+    }
+    return info;
   } catch (error) {
     return { valid: false, error: error.message };
+  }
+});
+
+// IPC Handler to remove cover art from a file path
+ipcMain.handle('remove-cover-art', async (event, filePath) => {
+  try {
+    if (!fs.existsSync(filePath)) {
+      return { success: false, error: 'File does not exist' };
+    }
+    const tags = nodeID3.read(filePath);
+    if (tags) {
+      delete tags.image;
+      const result = nodeID3.write(tags, filePath);
+      if (result === true || result === undefined || typeof result === 'object') {
+        return { success: true };
+      }
+    }
+    return { success: true };
+  } catch (error) {
+    console.error('Error removing cover art:', error);
+    return { success: false, error: error.message || 'Unknown error occurred removing cover art.' };
   }
 });
 
