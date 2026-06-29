@@ -34,10 +34,10 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
-  if (process.platform === 'darwin') {
+  if (process.platform === 'darwin' && !app.isPackaged) {
     try {
       const image = nativeImage.createFromPath(path.join(__dirname, 'icon.png'));
-      app.dock.setIcon(image); // Set macOS Dock icon dynamically using NativeImage
+      app.dock.setIcon(image); // Set macOS Dock icon dynamically only in development
     } catch (e) {
       console.error('Error setting dock icon:', e);
     }
