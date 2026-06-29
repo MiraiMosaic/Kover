@@ -173,8 +173,8 @@ async function handleImageFileByPath(filePath) {
   if (!info.valid) return;
 
   const ext = info.name.split('.').pop().toLowerCase();
-  if (ext !== 'png' && ext !== 'jpg' && ext !== 'jpeg') {
-    alert('Please select a valid image file (JPG or PNG).');
+  if (ext !== 'png' && ext !== 'jpg' && ext !== 'jpeg' && ext !== 'webp') {
+    alert('Please select a valid image file (JPG, PNG, or WebP).');
     return;
   }
 

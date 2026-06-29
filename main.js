@@ -114,12 +114,12 @@ ipcMain.handle('select-music-files', async () => {
   return result.filePaths;
 });
 
-// IPC Handler to open OS file dialog for selecting a cover image (JPG/PNG only)
+// IPC Handler to open OS file dialog for selecting a cover image (JPG/PNG/WebP)
 ipcMain.handle('select-image-file', async () => {
   const result = await dialog.showOpenDialog({
     properties: ['openFile'],
     filters: [
-      { name: 'Image Files', extensions: ['jpg', 'jpeg', 'png'] }
+      { name: 'Image Files', extensions: ['jpg', 'jpeg', 'png', 'webp'] }
     ]
   });
   return result.filePaths[0] || null;
