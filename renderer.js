@@ -483,9 +483,9 @@ if (removeArtBtn) {
       removeArtBtn.classList.add('success');
       removeArtBtn.textContent = '✓ Done!';
       
-      // Let success feedback stand for 1.5s, then reset preview & state
+      // Let success feedback stand for 1.5s, then clear music files completely
       setTimeout(() => {
-        renderMusicState();
+        clearMusic();
       }, 1500);
     } else {
       removeArtBtn.disabled = false;

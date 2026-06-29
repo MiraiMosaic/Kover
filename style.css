@@ -564,14 +564,14 @@ body {
   bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
-  width: 78px;
+  padding: 3px 10px; /* Dynamic padding for width sizing */
   height: 18px;
   border-radius: 9px;
   background: rgba(0, 0, 0, 0.85);
   border: 1px solid var(--accent-color);
   color: var(--accent-color);
   font-family: var(--font-pixel);
-  font-size: 8px;
+  font-size: 7px; /* Reduced from 8px for visual breathing room */
   font-weight: 500;
   cursor: pointer;
   display: flex;
@@ -580,7 +580,7 @@ body {
   text-align: center;
   z-index: 10;
   opacity: 0; /* Hidden by default */
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); /* Animate width, opacity, background-color transitions */
   -webkit-app-region: no-drag;
   white-space: nowrap;
 }
@@ -598,9 +598,10 @@ body {
 /* Done! Success state class */
 .remove-art-btn.success {
   background: #000000 !important;
-  border-color: #ffffff !important;
+  border-color: transparent !important; /* No white outer stroke */
   color: #ffffff !important;
   opacity: 1 !important; /* Force stay visible during success transition */
   cursor: default;
+  padding: 3px 12px; /* Tight padding to trim button around checkmark text */
 }
 
