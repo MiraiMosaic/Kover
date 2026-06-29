@@ -142,6 +142,11 @@ function renderMusicState() {
     musicBgImage.src = firstFile.existingCoverBase64;
     musicBgPreview.classList.remove('hidden');
     musicDropZone.classList.add('has-art');
+    
+    // Completely reset button state for the newly loaded file
+    removeArtBtn.classList.remove('success');
+    removeArtBtn.textContent = 'Remove Album Art';
+    removeArtBtn.disabled = false;
     removeArtBtn.classList.remove('hidden');
   } else {
     musicBgImage.src = '';
@@ -476,7 +481,7 @@ if (removeArtBtn) {
     
     if (successCount > 0) {
       removeArtBtn.classList.add('success');
-      removeArtBtn.textContent = 'Done!';
+      removeArtBtn.textContent = '✓ Done!';
       
       // Let success feedback stand for 1.5s, then reset preview & state
       setTimeout(() => {

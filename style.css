@@ -597,9 +597,9 @@ body {
 
 /* Done! Success state class */
 .remove-art-btn.success {
-  background: #28a745 !important; /* Green */
-  border-color: #28a745 !important;
-  color: #ffffff !important; /* White text */
+  background: #000000 !important;
+  border-color: #ffffff !important;
+  color: #ffffff !important;
   opacity: 1 !important; /* Force stay visible during success transition */
   cursor: default;
 }
