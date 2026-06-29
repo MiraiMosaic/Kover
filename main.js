@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog, nativeImage } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const nodeID3 = require('node-id3');
+const { MusicFile, MetaPicture } = require('music-tag-native');
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -57,35 +57,28 @@ app.on('window-all-closed', () => {
   }
 });
 
-// IPC Handler to write cover art to an MP3 file
+// IPC Handler to write cover art to an audio file (MP3, FLAC, M4A, WAV, OGG)
 ipcMain.handle('write-cover-art', async (event, { filePath, imageBase64 }) => {
   try {
     if (!fs.existsSync(filePath)) {
       return { success: false, error: 'File does not exist' };
     }
 
-    const buffer = Buffer.from(imageBase64, 'base64');
-    const tags = {
-      image: {
-        mime: 'image/jpeg',
-        type: {
-          id: 3, // front cover
-          name: 'front cover'
-        },
-        description: 'Cover Art',
-        imageBuffer: buffer
-      }
-    };
-
-    // node-id3 update keeps existing tags and adds/updates the cover image frame
-    const result = nodeID3.update(tags, filePath);
+    // Strip data:image/... prefix if present and convert to buffer
+    const cleanBase64 = imageBase64.includes('base64,') ? imageBase64.split('base64,')[1] : imageBase64;
+    const buffer = Buffer.from(cleanBase64, 'base64');
+    const musicFile = MusicFile.loadSync(filePath);
     
-    if (result === true || result === undefined || typeof result === 'object') {
-      return { success: true };
-    } else if (result instanceof Error) {
-      return { success: false, error: result.message };
+    // Deduce mime type
+    let mimeType = 'image/jpeg';
+    if (imageBase64.startsWith('data:image/png') || imageBase64.includes('image/png')) {
+      mimeType = 'image/png';
     }
+
+    const newPic = new MetaPicture(mimeType, new Uint8Array(buffer), 'Front Cover');
+    musicFile.pictures = [newPic];
     
+    musicFile.saveSync();
     return { success: true };
   } catch (error) {
     console.error('Error writing cover art:', error);
@@ -103,12 +96,12 @@ ipcMain.handle('validate-file', async (event, filePath) => {
   }
 });
 
-// IPC Handler to open OS file dialog for selecting music files (MP3 only)
+// IPC Handler to open OS file dialog for selecting music files
 ipcMain.handle('select-music-files', async () => {
   const result = await dialog.showOpenDialog({
     properties: ['openFile', 'multiSelections'],
     filters: [
-      { name: 'MP3 Audio Files', extensions: ['mp3'] }
+      { name: 'Audio Files', extensions: ['mp3', 'flac', 'm4a', 'mp4', 'wav', 'ogg'] }
     ]
   });
   return result.filePaths;
@@ -136,12 +129,19 @@ ipcMain.handle('get-file-info', async (event, filePath) => {
       valid: true
     };
 
-    // Check if it's an MP3 and read cover art
-    if (filePath.toLowerCase().endsWith('.mp3')) {
-      const tags = nodeID3.read(filePath);
-      if (tags && tags.image && tags.image.imageBuffer) {
-        const mime = tags.image.mime || 'image/jpeg';
-        info.existingCoverBase64 = `data:${mime};base64,${tags.image.imageBuffer.toString('base64')}`;
+    // Read cover art using music-tag-native if supported audio format
+    const ext = path.extname(filePath).toLowerCase();
+    const supportedAudio = ['.mp3', '.flac', '.m4a', '.mp4', '.wav', '.ogg'];
+    if (supportedAudio.includes(ext)) {
+      try {
+        const musicFile = MusicFile.loadSync(filePath);
+        if (musicFile.pictures && musicFile.pictures.length > 0) {
+          const pic = musicFile.pictures[0];
+          const mime = pic.mimeType || 'image/jpeg';
+          info.existingCoverBase64 = `data:${mime};base64,${Buffer.from(pic.data).toString('base64')}`;
+        }
+      } catch (e) {
+        console.error(`Error reading tags using music-tag-native for ${filePath}:`, e);
       }
     }
     return info;
@@ -156,14 +156,9 @@ ipcMain.handle('remove-cover-art', async (event, filePath) => {
     if (!fs.existsSync(filePath)) {
       return { success: false, error: 'File does not exist' };
     }
-    const tags = nodeID3.read(filePath);
-    if (tags) {
-      delete tags.image;
-      const result = nodeID3.write(tags, filePath);
-      if (result === true || result === undefined || typeof result === 'object') {
-        return { success: true };
-      }
-    }
+    const musicFile = MusicFile.loadSync(filePath);
+    musicFile.pictures = [];
+    musicFile.saveSync();
     return { success: true };
   } catch (error) {
     console.error('Error removing cover art:', error);

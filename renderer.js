@@ -57,7 +57,9 @@ function updateKoverButtonState() {
 
 async function addMusicFileByPath(filePath) {
   if (!filePath) return;
-  if (!filePath.toLowerCase().endsWith('.mp3')) return;
+  const ext = filePath.split('.').pop().toLowerCase();
+  const supported = ['mp3', 'flac', 'm4a', 'mp4', 'wav', 'ogg'];
+  if (!supported.includes(ext)) return;
   if (musicFiles.some(f => f.path === filePath)) return; // Avoid duplicates
 
   const info = await window.api.getFileInfo(filePath);
@@ -75,6 +77,9 @@ async function addMusicFileByPath(filePath) {
 }
 
 async function handleMusicDrop(files) {
+  // Clear existing list to support replacement behavior
+  musicFiles = [];
+  
   for (const file of Array.from(files)) {
     const path = window.api.getPathForFile(file) || file.path;
     await addMusicFileByPath(path);
@@ -84,6 +89,9 @@ async function handleMusicDrop(files) {
 async function selectMusicDialog() {
   const filePaths = await window.api.selectMusicFiles();
   if (filePaths && filePaths.length > 0) {
+    // Clear existing list to support replacement behavior
+    musicFiles = [];
+    
     for (const path of filePaths) {
       await addMusicFileByPath(path);
     }

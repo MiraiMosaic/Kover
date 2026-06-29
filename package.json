@@ -8,6 +8,7 @@
     "dist": "electron-builder"
   },
   "dependencies": {
+    "music-tag-native": "^1.0.0",
     "node-id3": "^0.2.6"
   },
   "devDependencies": {
