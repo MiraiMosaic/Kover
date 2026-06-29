@@ -28,7 +28,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
-  zoom: 1.15; /* Scales up layout to 316px x 224px */
+  zoom: 1.30; /* Scales up layout to 358px x 254px */
 }
 
 /* Frameless window drag bar support */
