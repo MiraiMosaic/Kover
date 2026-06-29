@@ -5,14 +5,14 @@ const nodeID3 = require('node-id3');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 275,
-    height: 195,
+    width: 316, // Scaled up by 15% (275 * 1.15 = 316)
+    height: 224, // Scaled up by 15% (195 * 1.15 = 224)
     icon: path.join(__dirname, 'icon.png'), // Set window icon
     frame: false, // Frameless window
     transparent: true, // Transparent window for custom rounded corners
     hasShadow: true, // Retain OS shadows
     titleBarStyle: 'hidden', // Keeps native traffic lights
-    trafficLightPosition: { x: 12, y: 12 }, // Offset traffic lights in super compact layout
+    trafficLightPosition: { x: 14, y: 14 }, // Scaled position for traffic lights
     resizable: false,
     maximizable: false,
     vibrancy: null, // Disable vibrancy
