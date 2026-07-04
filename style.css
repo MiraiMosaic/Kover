@@ -64,7 +64,6 @@ body {
   padding-top: 12px; /* Logo padding from the top is 12px */
   overflow: hidden;
   user-select: none;
-  -webkit-app-region: drag;
 }
 
 .logo-text {
@@ -628,12 +627,35 @@ body {
   justify-content: center;
   align-items: center;
   color: var(--text-muted);
-  font-family: system-ui, -apple-system, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
   padding: 0;
+  position: relative;
+}
+
+/* Custom CSS-drawn centered glyphs for close/minimize buttons */
+#min-btn::before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 1.5px;
+  background-color: currentColor;
+}
+
+#close-btn::before, #close-btn::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 1.5px;
+  background-color: currentColor;
+}
+
+#close-btn::before {
+  transform: rotate(45deg);
+}
+
+#close-btn::after {
+  transform: rotate(-45deg);
 }
 
 .win-control-btn:hover {
@@ -651,7 +673,6 @@ body {
 /* Align logo to the left on Windows/Linux to prevent overlap with window controls */
 .platform-non-darwin .logo-header {
   justify-content: flex-start;
-  -webkit-app-region: no-drag;
 }
 
 /* Limit drag bar width on Windows/Linux so it doesn't overlap the top-right window controls */
