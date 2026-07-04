@@ -653,3 +653,8 @@ body {
   justify-content: flex-start;
 }
 
+/* Limit drag bar width on Windows/Linux so it doesn't overlap the top-right window controls */
+.platform-non-darwin .window-drag-bar {
+  width: calc(100% - 70px);
+}
+
