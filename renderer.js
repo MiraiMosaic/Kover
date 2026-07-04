@@ -518,12 +518,14 @@ if (window.api.platform !== 'darwin') {
   
   if (minBtn) {
     minBtn.addEventListener('click', () => {
+      console.log('[DEBUG] Minimize button clicked!');
       window.api.minimizeWindow();
     });
   }
   
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
+      console.log('[DEBUG] Close button clicked!');
       window.api.closeWindow();
     });
   }

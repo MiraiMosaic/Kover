@@ -3,6 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const { MusicFile, MetaPicture } = require('music-tag-native');
 
+let mainWindow = null;
+
 function createWindow() {
   const win = new BrowserWindow({
     width: 358, // Scaled up by 30% total (275 * 1.30 = 358)
@@ -25,7 +27,11 @@ function createWindow() {
     }
   });
 
+  mainWindow = win;
   win.loadFile('index.html');
+  win.on('closed', () => {
+    mainWindow = null;
+  });
 
   // Pipe console messages from renderer to main process stdout
   win.webContents.on('console-message', (event, level, message, line, sourceId) => {
@@ -178,12 +184,10 @@ ipcMain.handle('read-file-base64', async (event, filePath) => {
 });
 
 // IPC Listeners for custom window frame controls (primarily for Windows/Linux)
-ipcMain.on('minimize-window', (event) => {
-  const win = BrowserWindow.fromWebContents(event.sender);
-  if (win) win.minimize();
+ipcMain.on('minimize-window', () => {
+  if (mainWindow) mainWindow.minimize();
 });
 
-ipcMain.on('close-window', (event) => {
-  const win = BrowserWindow.fromWebContents(event.sender);
-  if (win) win.close();
+ipcMain.on('close-window', () => {
+  if (mainWindow) mainWindow.close();
 });
