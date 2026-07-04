@@ -1,7 +1,7 @@
 {
   "name": "kover",
   "version": "1.0.0",
-  "description": "Dead simple drag-and-drop cover art tagger",
+  "description": "Kover",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
