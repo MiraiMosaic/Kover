@@ -25,6 +25,13 @@
       ],
       "icon": "icon.png",
       "identity": null
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "icon.png"
     }
   }
 }

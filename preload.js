@@ -8,6 +8,9 @@ contextBridge.exposeInMainWorld('api', {
   getFileInfo: (filePath) => ipcRenderer.invoke('get-file-info', filePath),
   readFileBase64: (filePath) => ipcRenderer.invoke('read-file-base64', filePath),
   removeCoverArt: (filePath) => ipcRenderer.invoke('remove-cover-art', filePath),
+  platform: process.platform,
+  minimizeWindow: () => ipcRenderer.send('minimize-window'),
+  closeWindow: () => ipcRenderer.send('close-window'),
   getPathForFile: (file) => {
     try {
       return webUtils.getPathForFile(file);

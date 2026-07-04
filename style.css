@@ -606,3 +606,45 @@ body {
   padding: 3px 12px; /* Tight padding to trim button around checkmark text */
 }
 
+/* Custom Window Controls for Windows/Linux */
+.window-controls {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 100;
+  -webkit-app-region: no-drag; /* Allow clicks on buttons despite parent drag bar overlap */
+}
+
+.win-control-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-muted);
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.win-control-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* Close button hover style is orange-red to match theme */
+#close-btn:hover {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #000000;
+}
+

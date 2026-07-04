@@ -176,3 +176,14 @@ ipcMain.handle('read-file-base64', async (event, filePath) => {
     return { success: false, error: error.message };
   }
 });
+
+// IPC Listeners for custom window frame controls (primarily for Windows/Linux)
+ipcMain.on('minimize-window', (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win) win.minimize();
+});
+
+ipcMain.on('close-window', (event) => {
+  const win = BrowserWindow.fromWebContents(event.sender);
+  if (win) win.close();
+});

@@ -504,3 +504,26 @@ if (removeArtBtn) {
     }
   });
 }
+
+// Custom Window Controls Setup for Windows / Linux (non-macOS platforms)
+if (window.api.platform !== 'darwin') {
+  const windowControls = document.getElementById('window-controls');
+  if (windowControls) {
+    windowControls.classList.remove('hidden'); // Reveal custom controls
+  }
+  
+  const minBtn = document.getElementById('min-btn');
+  const closeBtn = document.getElementById('close-btn');
+  
+  if (minBtn) {
+    minBtn.addEventListener('click', () => {
+      window.api.minimizeWindow();
+    });
+  }
+  
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      window.api.closeWindow();
+    });
+  }
+}
