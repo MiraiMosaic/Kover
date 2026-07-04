@@ -9,6 +9,10 @@
   },
   "dependencies": {
     "music-tag-native": "^1.0.0",
+    "music-tag-native-darwin-arm64": "^1.0.0",
+    "music-tag-native-darwin-x64": "^1.0.0",
+    "music-tag-native-win32-arm64-msvc": "^1.0.0",
+    "music-tag-native-win32-x64-msvc": "^1.0.0",
     "node-id3": "^0.2.6"
   },
   "devDependencies": {
