@@ -507,6 +507,7 @@ if (removeArtBtn) {
 
 // Custom Window Controls Setup for Windows / Linux (non-macOS platforms)
 if (window.api.platform !== 'darwin') {
+  document.body.classList.add('platform-non-darwin');
   const windowControls = document.getElementById('window-controls');
   if (windowControls) {
     windowControls.classList.remove('hidden'); // Reveal custom controls

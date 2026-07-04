@@ -648,3 +648,8 @@ body {
   color: #000000;
 }
 
+/* Align logo to the left on Windows/Linux to prevent overlap with window controls */
+.platform-non-darwin .logo-header {
+  justify-content: flex-start;
+}
+

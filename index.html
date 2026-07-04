@@ -10,20 +10,20 @@
   <!-- Drag area for frameless window movement -->
   <div class="window-drag-bar"></div>
 
+  <!-- Custom window controls for Windows/Linux (revealed dynamically) -->
+  <div id="window-controls" class="window-controls hidden">
+    <button id="min-btn" class="win-control-btn" title="Minimize">&#8722;</button>
+    <button id="close-btn" class="win-control-btn" title="Close">&times;</button>
+  </div>
+
   <div class="app-container">
     <!-- Tunnel round wipe overlay -->
     <div class="wipe-overlay" id="wipe-overlay"></div>
 
     <!-- Clipped neon logo -->
     <header class="logo-header">
-      <!-- Title on top left -->
+      <!-- Title on top left/right (platform dependent layout) -->
       <h1 class="logo-text">kover</h1>
-      
-      <!-- Custom window controls for Windows/Linux (revealed dynamically) -->
-      <div id="window-controls" class="window-controls hidden">
-        <button id="min-btn" class="win-control-btn" title="Minimize">&#8722;</button>
-        <button id="close-btn" class="win-control-btn" title="Close">&times;</button>
-      </div>
     </header>
 
     <main class="main-content">
